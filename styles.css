@@ -144,3 +144,21 @@ section.header .header-content .container{
     color: #333;
     font-weight: bold;
 }
+.custom-tag {
+    width: 120px; /* กำหนดความกว้างเท่ากันทุกปุ่ม */
+    border: 2px solid #EC5B1B;  
+    color: #EC5B1B;  
+    font-size: 18px;  
+    font-weight: bold;  
+    background: white;  
+    padding: 8px 16px;
+    border-radius: 20px;  
+    text-align: center; /* ทำให้ข้อความอยู่ตรงกลาง */
+    transition: all 0.3s ease-in-out;
+    white-space: nowrap; /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
+}
+
+.custom-tag:hover {
+    background: #EC5B1B;
+    color: white;
+}
