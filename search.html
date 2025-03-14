@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ค้นหาชุดและร้านค้า | KK Cos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">KK Cos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">เช่าชุด</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">ช่างแต่งหน้า</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">ช่างถ่ายรูป</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <h2 class="text-center">🔍 ค้นหาชุด ตัวละคร และร้านค้า</h2>
+        <input type="text" id="searchInput" class="form-control mt-3" placeholder="พิมพ์ชื่อชุด, ตัวละคร, ซีรีส์ หรือร้านค้า...">
+        <button class="btn btn-primary mt-3" onclick="searchItems()">ค้นหา</button>
+        <div id="result" class="mt-4"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

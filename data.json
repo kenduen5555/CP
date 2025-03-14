@@ -12,5 +12,12 @@
         "shop": "Shinobi Cosplay",
         "image": "sunday.jpg",
         "link": "https://instagram.com/shinobicosplay"
+    },
+    {
+        "character": "feixiao",
+        "series": "test",
+        "shop": "Shinobi Cosplay",
+        "image": "feixiao.jpg",
+        "link": "https://instagram.com/shinobicosplay"
     }
 ]
