@@ -71,3 +71,39 @@ section.header .header-content .container{
     border: 3px solid #F5F5F5;
     background: #E75201;
 }
+.horizontal-scroll-container {
+    width: 100%;
+    overflow-x: scroll; /* ทำให้แสดงแถบเลื่อนแนวนอนได้ */
+    white-space: nowrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
+    padding: 10px;
+    scrollbar-width: thin; /* ซ่อน scrollbar บน Firefox */
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+    height: 8px; /* ปรับความสูงของแถบเลื่อนใน Chrome/Safari */
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.scroll-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.scroll-wrapper a {
+    flex: 0 0 auto;
+}
+
+.scroll-wrapper img {
+    width: 300px; /* ปรับขนาดรูปภาพ */
+    height: 250px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.scroll-wrapper img:hover {
+    transform: scale(1.1);
+}
