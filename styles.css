@@ -1,5 +1,13 @@
+body {
+    font-family: "Noto Sans Thai", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }
 .bg-dark {
-    background-color: #010101 !important;
+    background-color: #aa50ad !important;
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -14,29 +22,44 @@
     font-weight: bold;
 }
 
-section.header{
+/* ป้องกัน Navbar ทับ Banner */
+body {
+    padding-top: 70px; /* ปรับตามความสูงของ Navbar */
+}
+
+/* เพิ่มระยะห่างระหว่าง Banner และ Scroll Section */
+#carouselBanner {
+    margin-bottom: 40px; /* ปรับเพิ่มระยะห่างระหว่าง Banner กับเนื้อหาด้านล่าง */
+}
+
+#horizontalScrollContainer {
+    margin-top: 40px; /* เพิ่มระยะห่างระหว่าง Banner กับแถบ Scroll */
+    margin-bottom: 40px; /* ปรับเพิ่มระยะห่างระหว่าง Banner กับเนื้อหาด้านล่าง */
+}
+
+section.header {
     background: url('../assets/images/bg_header.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
 }
 
-section.header .header-content .container{
+section.header .header-content .container {
     height: 90vh;
 }
 
-.head-content{
+.head-content {
     width: 600px;
     color: #fff;
 }
 
-.head-content h1{
+.head-content h1 {
     font-size: 60px;
     font-weight: bold;
     margin-bottom: 30px;
 }
 
-.head-content button{
+.head-content button {
     background-color: #EC5B1B;
     border: none;
     padding: 10px 24px;
@@ -47,12 +70,12 @@ section.header .header-content .container{
     margin-top: 20px;
 }
 
-.customizable{
+.customizable {
     margin-top: 80px;
     color: #EC5B1B;
 }
 
-.madeorder{
+.madeorder {
     height: 650px;
     background: url('../assets/images/MadeWithFish.jpg');
     background-size: cover;
@@ -62,7 +85,7 @@ section.header .header-content .container{
     color: #fff;
 }
 
-.madeorder h1{
+.madeorder h1 {
     width: 500px;
 }
 
@@ -71,16 +94,18 @@ section.header .header-content .container{
     border: 3px solid #F5F5F5;
     background: #E75201;
 }
+
+/* ปรับการ Scroll แนวนอน */
 .horizontal-scroll-container {
     width: 100%;
-    overflow-x: scroll; /* ทำให้แสดงแถบเลื่อนแนวนอนได้ */
-    white-space: nowrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
+    overflow-x: scroll;
+    white-space: nowrap;
     padding: 10px;
-    scrollbar-width: thin; /* ซ่อน scrollbar บน Firefox */
+    scrollbar-width: thin;
 }
 
 .horizontal-scroll-container::-webkit-scrollbar {
-    height: 8px; /* ปรับความสูงของแถบเลื่อนใน Chrome/Safari */
+    height: 8px;
 }
 
 .horizontal-scroll-container::-webkit-scrollbar-thumb {
@@ -98,7 +123,7 @@ section.header .header-content .container{
 }
 
 .scroll-wrapper img {
-    width: 300px; /* ปรับขนาดรูปภาพ */
+    width: 300px;
     height: 250px;
     border-radius: 10px;
     transition: transform 0.3s ease-in-out;
@@ -107,6 +132,7 @@ section.header .header-content .container{
 .scroll-wrapper img:hover {
     transform: scale(1.1);
 }
+
 .horizontal-scroll-container {
     overflow-x: auto;
     white-space: nowrap;
@@ -118,16 +144,17 @@ section.header .header-content .container{
     flex-wrap: nowrap;
 }
 
+/* ปรับขนาดการ์ด */
 .card {
     flex: 0 0 auto;
-    width: 18rem; /* ขยายความกว้างของการ์ด */
+    width: 18rem;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding-bottom: 10px; /* เพิ่มพื้นที่ด้านล่าง */
+    padding-bottom: 10px;
 }
 
 .card img {
-    width: 100%; /* ให้รูปภาพขยายเต็มการ์ด */
+    width: 100%;
     height: auto;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -136,26 +163,28 @@ section.header .header-content .container{
 .card-body {
     background: #fff;
     text-align: center;
-    padding: 16px; /* เพิ่ม padding เพื่อให้ตัวการ์ดใหญ่กว่ารูป */
+    padding: 16px;
 }
 
 .card-text {
-    font-size: 16px; /* ปรับขนาดตัวอักษร */
+    font-size: 16px;
     color: #333;
     font-weight: bold;
 }
+
+/* ปรับปุ่มแท็ก */
 .custom-tag {
-    width: 120px; /* กำหนดความกว้างเท่ากันทุกปุ่ม */
-    border: 2px solid #EC5B1B;  
-    color: #EC5B1B;  
-    font-size: 18px;  
-    font-weight: bold;  
-    background: white;  
+    width: 120px;
+    border: 2px solid #EC5B1B;
+    color: #EC5B1B;
+    font-size: 18px;
+    font-weight: bold;
+    background: white;
     padding: 8px 16px;
-    border-radius: 20px;  
-    text-align: center; /* ทำให้ข้อความอยู่ตรงกลาง */
+    border-radius: 20px;
+    text-align: center;
     transition: all 0.3s ease-in-out;
-    white-space: nowrap; /* ป้องกันข้อความขึ้นบรรทัดใหม่ */
+    white-space: nowrap;
 }
 
 .custom-tag:hover {
