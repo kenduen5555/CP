@@ -191,3 +191,54 @@ section.header .header-content .container {
     background: #EC5B1B;
     color: white;
 }
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* ให้ body สูงเต็มจอ */
+}
+
+main {
+    flex: 1; /* ขยายเต็มที่เพื่อดัน footer ลงล่าง */
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+/* ปรับขนาดช่องกรอกข้อมูล */
+#contactForm .form-control,
+#contactForm .form-select {
+    max-width: 400px; /* กำหนดความกว้างสูงสุด */
+    margin: 0 auto; /* จัดให้อยู่ตรงกลาง */
+}
+/* ปรับให้ label และ input อยู่ในแนวเดียวกัน */
+#contactForm .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* จัด label กับ input ให้อยู่ซ้ายสุด */
+    max-width: 400px; /* จำกัดขนาดของกล่อง input */
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* ปรับ label ให้ชิดซ้ายของ input */
+#contactForm .form-label {
+    font-weight: bold;
+    margin-bottom: 5px; /* เพิ่มระยะห่างระหว่าง label และ input */
+    text-align: left;
+    width: 100%; /* ให้ label ขยายเต็ม container */
+}
+
+
+/* ปรับขนาดปุ่มส่ง */
+#contactForm button {
+    max-width: 200px; /* จำกัดความกว้างของปุ่ม */
+    display: block;
+    margin: 10px auto; /* จัดปุ่มให้อยู่ตรงกลาง */
+}
+
+
