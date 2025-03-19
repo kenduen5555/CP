@@ -35,33 +35,33 @@
             </div>
         </div>
     </nav>
-    <div class="container my-3">
-        <div id="form-area">
-            <h2>เข้าสู่ระบบร้านค้า</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" placeholder="ป้อนอีเมลของคุณ" name="email" class="form-control" style="width: 60%;">
-                </div>
-                <div class="form-group my-3">
-                    <label for="password">Password</label>
-                    <input type="password" placeholder="ป้อนรหัสผ่านของคุณ" name="password" class="form-control" style="width: 60%;">
-                </div>
-                <div class="form-group my-3">
-                    <button type="submit" class="btn-success">เข้าสู่ระบบ</button>
-                </div>
-            </form>
-            <h3><br>หรือหากคุณยังไม่มีบัญชีผู้ใช้</h3>
-            <a href="signup.html" class="btn btn-primary">Sign up</a>
-            <script src="databaselogin.js" type="module"></script>
-        </div>
-        <div id="profile">
-            <h3 id="welcome">เข้าสู่ระบบเรียบร้อยแล้ว</h3>
-            <button id="logout" class="btn btn-success">ออกจากระบบ</button>
-    
-        </div>
+<div class="container my-3">
+    <div id="form-area">
+        <h2>สร้างบัญชีผู้ใช้(สำหรับร้านค้า)</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" placeholder="ป้อนอีเมลของคุณ" name="email" class="form-control" style="width: 60%;">
+            </div>
+            <div class="form-group my-3">
+                <label for="password">Password</label>
+                <input type="password" placeholder="ป้อนรหัสผ่านของคุณ" name="password" class="form-control" style="width: 60%;">
+            </div>
+            <div class="form-group my-3">
+                <button type="submit" class="btn-primary">ลงทะเบียน</button>
+            </div>
+        </form>
+        <h3><br>คุณมีบัญชีผู้ใช้อยู่แล้วงั้นเหรอ?</h3>
+        <a href="login.html" class="btn btn-success">Login</a>
+        <script src="databaselogin.js" type="module"></script>
     </div>
+    <div id="profile">
+        <h3 id="welcome">เข้าสู่ระบบเรียบร้อยแล้ว</h3>
+        <button id="logout" class="btn btn-success">ออกจากระบบ</button>
 
-    
+    </div>
+</div>
+<script src="databasesignup.js" type="module"></script>
+
 </body>
 </html>
