@@ -9,10 +9,11 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- เพิ่มไอคอนgoogle -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <script src="database.js" type="module"></script>
+    <script src="databaselogin.js" type="module"></script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">KK Cos</a>
@@ -51,9 +52,10 @@
                     <button type="submit" class="btn-success">เข้าสู่ระบบ</button>
                 </div>
             </form>
+            <button id="googlelogin-btn" class="google-button"><i class="fab fa-google"></i> เข้าสู่ระบบด้วย Google</button>
             <h3><br>หรือหากคุณยังไม่มีบัญชีผู้ใช้</h3>
             <a href="signup.html" class="btn btn-primary">Sign up</a>
-            <script src="databaselogin.js" type="module"></script>
+
         </div>
         <div id="profile">
             <h3 id="welcome">เข้าสู่ระบบเรียบร้อยแล้ว</h3>

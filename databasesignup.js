@@ -25,6 +25,9 @@
     const password = form.password.value
     createUserWithEmailAndPassword(auth,email,password)
     .then((result)=>{
+      const user = result.user;
+      localStorage.setItem("displayName", user.email);
+      localStorage.setItem("email", user.email);
       alert("สร้างบัญชีผู้ใช้สำเร็จ")
     }).catch((error)=>{
       alert(error.message)
@@ -48,6 +51,7 @@
   logout.addEventListener("click",(e)=>{
     signOut(auth).then(()=>{
       alert("ออกจากระบบเรียบร้อย")
+      window.location.href = "login.html";
     }).catch((error)=>{
       alert(error.message)
     })

@@ -1,5 +1,5 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-  import { getAuth , signOut ,onAuthStateChanged,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+  import { getAuth , signOut ,onAuthStateChanged,signInWithEmailAndPassword ,GoogleAuthProvider,signInWithPopup} from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
   const firebaseConfig = {
     apiKey: "AIzaSyBqxJMhfeNGmXB-j143LN6uxsIYkmEiwLE",
     authDomain: "kkcos-d3a73.firebaseapp.com",
@@ -25,7 +25,12 @@
     const password = loginform.password.value
     signInWithEmailAndPassword(auth,email,password)
     .then((result)=>{
+      const user = result.user;
+      localStorage.setItem("displayName", user.email);
+      localStorage.setItem("email", user.email);
       alert("เข้าสู่บัญชีผู้ใช้เรียบร้อย")
+      window.location.href = "profile.html";
+
     }).catch((error)=>{
       alert(error.message)
     })
@@ -48,8 +53,40 @@
   logout1.addEventListener("click",(e)=>{
     signOut(auth).then(()=>{
       alert("ออกจากระบบเรียบร้อย")
+      window.location.href = "login.html";
     }).catch((error)=>{
       alert(error.message)
     })
 
+  })
+
+
+  const provider = new GoogleAuthProvider();
+  auth.languageCode = 'th';
+
+  const googlelogin = document.getElementById("googlelogin-btn")
+  googlelogin.addEventListener("click",function(){
+    signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;//ลบได้
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    const displayName = user.displayName;
+    const email = user.email; 
+    localStorage.setItem("displayName", user.displayName);
+    localStorage.setItem("email", user.email);
+    window.location.href = "profile.html";
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;//ลบได้
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);//ลบได้
+    // ...
+  });
   })
