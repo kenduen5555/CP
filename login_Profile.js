@@ -34,7 +34,10 @@ window.onload = function() {
     const newUrl = currentUrl.replace('.html', ''); // ลบ .html ออกจาก URL
 
     // เปลี่ยน URL ในเบราว์เซอร์ให้ไม่มี .html
-    history.pushState({ prevUrl: currentUrl }, null, newUrl);
+    if (currentUrl !== newUrl) {
+        history.replaceState({ prevUrl: currentUrl }, null, newUrl); // ใช้ replaceState
+    }
 
+    // โหลดไฟล์ HTML ที่เกี่ยวข้อง
+    loadPage(currentUrl);
 };
-
