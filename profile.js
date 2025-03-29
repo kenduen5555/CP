@@ -41,6 +41,8 @@ onAuthStateChanged(auth,(user)=>{
 
 logout.addEventListener("click",(e)=>{
   signOut(auth).then(()=>{
+    localStorage.removeItem("displayName");  // ลบข้อมูลออกจาก localStorage
+    localStorage.removeItem("email");
     alert("ออกจากระบบเรียบร้อย")
     window.location.href = "login.html";
   }).catch((error)=>{
@@ -48,3 +50,39 @@ logout.addEventListener("click",(e)=>{
   })
 
 })
+
+// เมื่อผู้ใช้เข้าสู่ระบบ
+window.onload = function() {
+  // ลบข้อมูลออกจากระบบที่เก็บไว้ใน localStorage เมื่อเข้าสู่ระบบใหม่
+  localStorage.removeItem("signOutTimeout");
+
+  // ตั้งเวลาการออกจากระบบใหม่
+  localStorage.setItem("signOutTimeout", Date.now() + (5 * 60 * 60 * 1000)); // 5 ชม.
+  checkSignOutTimeout();
+};
+
+// ฟังก์ชันที่ใช้ตรวจสอบเวลาออกจากระบบ
+function checkSignOutTimeout() {
+  const timeoutTime = parseInt(localStorage.getItem("signOutTimeout"));
+  const currentTime = Date.now();
+
+  // ถ้าเวลาผ่านไปแล้ว
+  if (currentTime >= timeoutTime) {
+    signOutUser(); // ออกจากระบบ
+  } else {
+    const remainingTime = timeoutTime - currentTime;
+    setTimeout(signOutUser, remainingTime); // ตั้งเวลาใหม่หลังจากเวลาที่เหลือ
+  }
+}
+
+// ฟังก์ชันออกจากระบบ
+function signOutUser() {
+  signOut(auth).then(() => {
+    localStorage.removeItem("displayName");  // ลบข้อมูลออกจาก localStorage
+    localStorage.removeItem("email");
+    alert("ออกจากระบบเรียบร้อย");
+    window.location.href = "login.html";
+  }).catch((error) => {
+    alert(error.message);
+  });
+}

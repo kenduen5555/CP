@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image to Cloudinary</title>
+    <script type="module" src="upload.js"></script>
+</head>
+<body>
+    <h2>อัปโหลดภาพไปยัง Cloudinary</h2>
+
+    <!-- ฟอร์มการอัปโหลดภาพ -->
+    <form id="uploadForm">
+        <label for="imageUpload">เลือกภาพที่ต้องการอัปโหลด:</label>
+        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required><br><br>
+
+        <button type="submit">อัปโหลดภาพ</button>
+    </form>
+
+    <div id="result">
+        <h3>ผลลัพธ์</h3>
+        <p>ลิงก์ภาพที่อัปโหลด: <span id="imageUrl">ยังไม่มี</span></p>
+        <img id="uploadedImage" src="" alt="Uploaded Image" style="max-width: 300px;">
+    </div>
+
+</body>
+</html>

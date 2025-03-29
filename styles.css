@@ -241,4 +241,23 @@ main {
     margin: 10px auto; /* จัดปุ่มให้อยู่ตรงกลาง */
 }
 
+.alert {
+    padding: 15px 5%;
+    background-color: #4CAF50; /* สีเขียว */
+    color: white;
+    position: fixed;
+    top: 80px;
+    right: 10px;
+
+    border-radius: 5px;
+    z-index: 9999;
+
+    font-size: 18px; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้น */
+    height: auto; /* ความสูงปรับอัตโนมัติ */
+    min-width: 10%; /* ความกว้างขั้นต่ำเป็นเปอร์เซ็นต์ */
+    max-width: 50%; /* ความกว้างสูงสุดเป็นเปอร์เซ็นต์ */
+    text-align: center; /* จัดข้อความให้อยู่กลาง */
+    font-weight: bold; /* ทำให้ตัวอักษรหนาขึ้น */
+    display: none;  /* ซ่อนข้อความเริ่มต้น */
+  }
 

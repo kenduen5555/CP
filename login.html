@@ -27,7 +27,9 @@
                     </li>                    
                     <li class="nav-item"><a class="nav-link" href="artistmu.html">Makeup artist</a></li>
                     <li class="nav-item"><a class="nav-link" href="Cam.html">Cameraman</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Log in</a></li>
+                    <li class="nav-item"><a id="login-link" class="nav-link" href="login.html">Log in</a>
+                        <a id="profile-link" class="nav-link" href="profile.html" style="display: none;">Profile</a></li>
+                        <script src="login_Profile.js"></script>
                 </ul>
                 <!-- ใช้ ms-auto เพื่อดันปุ่มไปทางขวา -->
                 <div class="ms-auto">
@@ -36,6 +38,9 @@
             </div>
         </div>
     </nav>
+    <div id="alert" class="alert" style="display: none;">
+        เข้าสู่บัญชีผู้ใช้เรียบร้อย 
+      </div>
     <div class="container my-3">
         <div id="form-area">
             <h2>เข้าสู่ระบบร้านค้า</h2>
@@ -55,13 +60,6 @@
             <button id="googlelogin-btn" class="google-button"><i class="fab fa-google"></i> เข้าสู่ระบบด้วย Google</button>
             <h3><br>หรือหากคุณยังไม่มีบัญชีผู้ใช้</h3>
             <a href="signup.html" class="btn btn-primary">Sign up</a>
-
-        </div>
-        <div id="profile">
-            <h3 id="welcome">เข้าสู่ระบบเรียบร้อยแล้ว</h3>
-            <button id="logout" class="btn btn-success">ออกจากระบบ</button>
-    
-        </div>
     </div>
 
     

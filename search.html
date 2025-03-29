@@ -13,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <script src="database.js" type="module"></script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">KK Cos</a>
@@ -27,7 +26,9 @@
                     </li>                    
                     <li class="nav-item"><a class="nav-link" href="artistmu.html">Makeup artist</a></li>
                     <li class="nav-item"><a class="nav-link" href="Cam.html">Cameraman</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Log in</a></li>
+                    <li class="nav-item"><a id="login-link" class="nav-link" href="login.html">Log in</a>
+                        <a id="profile-link" class="nav-link" href="profile.html" style="display: none;">Profile</a></li>
+                        <script src="login_Profile.js"></script>
                 </ul>
             </div>
         </div>

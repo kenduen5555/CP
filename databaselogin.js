@@ -15,10 +15,18 @@
 
   const loginform = document.getElementById("loginForm")
   const formarea1 = document.getElementById("form-area")
-  const profile1 = document.getElementById("profile")
   const welcome1 = document.getElementById("welcome")
   const logout1 = document.getElementById("logout")
 
+//ถ้าเข้าสู่ระบบอยู่แล้วให้ไปหน้าprofile
+  onAuthStateChanged(auth,(user)=>{
+      if(user){
+        showAlert()
+      }else{
+      }
+    })
+
+  //หลังกดปุ่มlogin
   loginform.addEventListener("submit",(e)=>{
     e.preventDefault()
     const email = loginform.email.value
@@ -28,41 +36,27 @@
       const user = result.user;
       localStorage.setItem("displayName", user.email);
       localStorage.setItem("email", user.email);
-      alert("เข้าสู่บัญชีผู้ใช้เรียบร้อย")
-      window.location.href = "profile.html";
+      showAlert();
 
     }).catch((error)=>{
       alert(error.message)
     })
 
   })
-
-  onAuthStateChanged(auth,(user)=>{
-
-    if(user){
-      profile1.style.display="block"
-      formarea1.style.display="none"
-      welcome1.innerText=`ยินดีต้อนรับ${user.email}`
-    }else{
-      profile1.style.display="none"
-      formarea1.style.display="block"
-    }
-
-  })
-
-  logout1.addEventListener("click",(e)=>{
-    signOut(auth).then(()=>{
-      alert("ออกจากระบบเรียบร้อย")
-      window.location.href = "login.html";
-    }).catch((error)=>{
-      alert(error.message)
-    })
-
-  })
-
 
   const provider = new GoogleAuthProvider();
   auth.languageCode = 'th';
+
+  function showAlert() {
+    var alert = document.getElementById('alert');
+    //console.log('Before:', alert.style.display);  // ตรวจสอบก่อนการแสดง
+    alert.style.display = 'block';  // แสดงข้อความแจ้งเตือน
+    //console.log('After:', alert.style.display);  // ตรวจสอบหลังจากการแสดง
+    setTimeout(function() {
+      alert.style.display = 'none';  // ซ่อนข้อความแจ้งเตือนหลังจาก 1.5 วินาที
+      window.location.href = "profile.html";  // เปลี่ยนหน้าเว็บหลังจากแสดงแจ้งเตือน
+    }, 1500);  // ตั้งเวลาเป็น 1500 มิลลิวินาที (1.5 วินาที)
+  }
 
   const googlelogin = document.getElementById("googlelogin-btn")
   googlelogin.addEventListener("click",function(){

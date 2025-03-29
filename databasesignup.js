@@ -19,6 +19,14 @@
   const welcome = document.getElementById("welcome")
   const logout = document.getElementById("logout")
 
+//ถ้าเข้าสู่ระบบอยู่แล้วให้ไปหน้าprofile
+onAuthStateChanged(auth,(user)=>{
+  if(user){
+    showAlert()
+  }else{
+  }
+})
+
   form.addEventListener("submit",(e)=>{
     e.preventDefault()
     const email = form.email.value
@@ -28,12 +36,22 @@
       const user = result.user;
       localStorage.setItem("displayName", user.email);
       localStorage.setItem("email", user.email);
-      alert("สร้างบัญชีผู้ใช้สำเร็จ")
+      showAlert();
     }).catch((error)=>{
       alert(error.message)
     })
 
   })
+
+  function showAlert() {
+    var alert = document.getElementById('alert');
+    //console.log('Before:', alert.style.display);  // ตรวจสอบก่อนการแสดง
+    alert.style.display = 'block';  // แสดงข้อความแจ้งเตือน
+    //console.log('After:', alert.style.display);  // ตรวจสอบหลังจากการแสดง
+    setTimeout(function() {
+      alert.style.display = 'none';  // ซ่อนข้อความแจ้งเตือนหลังจาก 1.5 วินาที
+    }, 1500);  // ตั้งเวลาเป็น 1500 มิลลิวินาที (1.5 วินาที)
+  }
 
   onAuthStateChanged(auth,(user)=>{
 
@@ -50,6 +68,8 @@
 
   logout.addEventListener("click",(e)=>{
     signOut(auth).then(()=>{
+      localStorage.removeItem("displayName");  // ลบข้อมูลออกจาก localStorage
+      localStorage.removeItem("email");
       alert("ออกจากระบบเรียบร้อย")
       window.location.href = "login.html";
     }).catch((error)=>{

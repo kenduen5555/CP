@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Dismiss Alert</title>
+  <style>
+    /* สไตล์สำหรับข้อความแจ้งเตือน */
+    .alert {
+      padding: 20px;
+      background-color: #4CAF50; /* สีเขียว */
+      color: white;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 5px;
+      z-index: 1000;
+      display: none;  /* ซ่อนข้อความเริ่มต้น */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- พื้นที่แสดงข้อความแจ้งเตือน -->
+  <div id="alert" class="alert">
+    เข้าสู่บัญชีผู้ใช้เรียบร้อย
+  </div>
+
+  <script>
+    // ฟังก์ชันที่จะแสดงข้อความแจ้งเตือน
+    function showAlert() {
+      var alert = document.getElementById('alert');
+      alert.style.display = 'block';  // แสดงข้อความแจ้งเตือน
+      setTimeout(function() {
+        alert.style.display = 'none';  // ซ่อนข้อความแจ้งเตือนหลังจาก 2 วินาที
+      }, 2000);  // ตั้งเวลาเป็น 2000 มิลลิวินาที (2 วินาที)
+    }
+
+    // เรียกฟังก์ชันเมื่อหน้าเว็บโหลด
+    window.onload = showAlert;
+  </script>
+
+</body>
+</html>

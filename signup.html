@@ -26,7 +26,9 @@
                     </li>                    
                     <li class="nav-item"><a class="nav-link" href="artistmu.html">Makeup artist</a></li>
                     <li class="nav-item"><a class="nav-link" href="Cam.html">Cameraman</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Log in</a></li>
+                    <li class="nav-item"><a id="login-link" class="nav-link" href="login.html">Log in</a>
+                        <a id="profile-link" class="nav-link" href="profile.html" style="display: none;">Profile</a></li>
+                        <script src="login_Profile.js"></script>
                 </ul>
                 <!-- ใช้ ms-auto เพื่อดันปุ่มไปทางขวา -->
                 <div class="ms-auto">
@@ -35,6 +37,9 @@
             </div>
         </div>
     </nav>
+    <div id="alert" class="alert" style="display: none;">
+        เข้าสู่บัญชีผู้ใช้เรียบร้อย 
+      </div>   
 <div class="container my-3">
     <div id="form-area">
         <h2>สร้างบัญชีผู้ใช้(สำหรับร้านค้า)</h2>
@@ -53,12 +58,11 @@
         </form>
         <h3><br>คุณมีบัญชีผู้ใช้อยู่แล้วงั้นเหรอ?</h3>
         <a href="login.html" class="btn btn-success">Login</a>
-        <script src="databaselogin.js" type="module"></script>
     </div>
     <div id="profile">
         <h3 id="welcome">เข้าสู่ระบบเรียบร้อยแล้ว</h3>
         <a href="profile.html" class="btn btn-primary">เข้าสู่หน้าโปรไฟล์</a>
-        <button id="logout" class="btn btn-success">ออกจากระบบ</button>
+        <button id="logout" class="btn btn-danger">ออกจากระบบ</button>
 
     </div>
 </div>
