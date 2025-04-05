@@ -37,8 +37,29 @@
             </div>
         </div>
     </nav>
-
+    <br>
             <h2 id="welcome">ยินดีต้อนรับ</h2>
+
+            <div>
+                <h2>โปรไฟล์ร้านของฉัน</h2>
+                <form id="updateProfileForm">
+                    <div class="mb-3">
+                        <label for="storeName" class="form-label">ชื่อร้าน:</label>
+                        <input type="text" class="form-control" id="storeName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="storeLink" class="form-label">ลิงก์ร้าน:</label>
+                        <input type="url" class="form-control" id="storeLink" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">อัปเดตข้อมูล</button>
+                </form>
+                <br>
+                <h4>จำนวนชุดที่มี: <span id="costumeCount">0</span></h4>
+                <a href="edit_costumes.html" class="btn btn-warning">แก้ไขชุด</a>
+                <a href="upload_costume.html" class="btn btn-success">อัปโหลดชุดใหม่</a>
+               
+            </div>
+            <br>
             <button id="logout" class="btn btn-danger">ออกจากระบบ</button>
             <script src="profile.js" type="module" ></script>
 </body>

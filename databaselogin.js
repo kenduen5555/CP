@@ -26,6 +26,14 @@
       }
     })
 
+    window.onload = function() {
+      // เปลี่ยน URL โดยไม่ต้องโหลดหน้าใหม่
+      if (window.location.pathname === '/login') {
+          history.pushState(null, null, '/login');
+          loadPage('/For rent.html');
+      }
+  }
+
   //หลังกดปุ่มlogin
   loginform.addEventListener("submit",(e)=>{
     e.preventDefault()
