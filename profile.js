@@ -47,7 +47,7 @@ onAuthStateChanged(auth, async (user) => {
         storeNameInput.value = storeData.storeName || "";
         storeLinkInput.value = storeData.storeLink || "";
       } else {
-        alert("ไม่พบข้อมูลร้านค้า กรุณากรอกข้อมูล");
+        alert("กรุณากรอกข้อมูลร้านค้า!");
       }
 
       const costumesRef = collection(db, "costumes");

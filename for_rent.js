@@ -41,57 +41,87 @@ async function fetchAllCostumes() {
 }
 
 function renderCostumesPage(page) {
-  costumeList.innerHTML = "";
-
-  const start = (page - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  const pageItems = costumesAll.slice(start, end);
-
-  if (pageItems.length === 0) {
-    costumeList.innerHTML = "<p>ไม่มีข้อมูลที่แสดง</p>";
-    nextPageBtn.style.display = 'none';
-    prevPageBtn.style.display = page > 1 ? 'block' : 'none';
-    return;
-  }
-
-  pageItems.forEach(costume => {
-    const card = document.createElement("div");
-    card.classList.add("col-md-4", "mb-4");
-
-    card.innerHTML = `
-      <div class="card shadow-lg">
-        <img src="${costume.imageUrl}" class="card-img-top" alt="${costume.name}">
-        <div class="card-body text-center">
-          <h5 class="card-title">${costume.name}</h5>
-          <a href="view_costume.html?id=${costume.id}" class="btn btn-primary">รายละเอียด</a>
+    costumeList.innerHTML = "";
+    
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pageItems = costumesAll.slice(start, end);
+  
+    if (pageItems.length === 0) {
+      costumeList.innerHTML = "<p>ไม่มีข้อมูลที่แสดง</p>";
+      nextPageBtn.style.display = 'none';
+      prevPageBtn.style.display = page > 1 ? 'block' : 'none';
+      return;
+    }
+  
+    pageItems.forEach(costume => {
+      const card = document.createElement("div");
+      card.classList.add("costume-col", "mb-4");
+    
+      card.innerHTML = `
+        <div class="custom-card shadow-lg">
+          <img src="${costume.imageUrl}" class="card-img-top" alt="${costume.name}">
+          <div class="card-body text-center">
+            <h5 class="card-title">${costume.name}</h5>
+            <a href="view_costume.html?id=${costume.id}" class="btn btn-primary">รายละเอียด</a>
+          </div>
         </div>
-      </div>
-    `;
-
-    costumeList.appendChild(card);
-  });
-
-  // ปุ่มหน้า
-  nextPageBtn.style.display = end < costumesAll.length ? 'block' : 'none';
-  prevPageBtn.style.display = page > 1 ? 'block' : 'none';
-
-  nextPageBtn.onclick = () => {
-    currentPage++;
-    renderCostumesPage(currentPage);
-  };
-  prevPageBtn.onclick = () => {
-    currentPage--;
-    renderCostumesPage(currentPage);
-  };
-}
+      `;
+    
+      costumeList.appendChild(card);
+    });
+  
+    // ปุ่มหน้า
+    nextPageBtn.style.display = end < costumesAll.length ? 'block' : 'none';
+    prevPageBtn.style.display = page > 1 ? 'block' : 'none';
+  
+    // อัปเดตช่องกรอกหมายเลขหน้า
+    pageInput.value = currentPage;
+  
+    nextPageBtn.onclick = () => {
+      currentPage++;
+      sessionStorage.setItem('currentPage', currentPage);  // เก็บค่า page ใน sessionStorage
+      renderCostumesPage(currentPage);
+    };
+    prevPageBtn.onclick = () => {
+      currentPage--;
+      sessionStorage.setItem('currentPage', currentPage);  // เก็บค่า page ใน sessionStorage
+      renderCostumesPage(currentPage);
+    };
+  
+    // เมื่อผู้ใช้กรอกหมายเลขหน้าและกด Enter
+    pageInput.onkeydown = (e) => {
+      if (e.key === 'Enter') {
+        const page = parseInt(pageInput.value);
+        if (page >= 1 && page <= Math.ceil(costumesAll.length / itemsPerPage)) {
+          currentPage = page;
+          sessionStorage.setItem('currentPage', currentPage);  // เก็บค่า page ใน sessionStorage
+          renderCostumesPage(currentPage);
+        }
+      }
+    };
+  }
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
   tagFilter = params.get("tag");
-  currentPage = parseInt(params.get("page")) || 1;
+  const previousTag = sessionStorage.getItem("lastTag");
+  if (previousTag !== tagFilter) {
+    sessionStorage.removeItem("currentPage");
+  }
+  sessionStorage.setItem("lastTag", tagFilter);
+  currentPage = parseInt(sessionStorage.getItem('currentPage')) || 1;  // ใช้ค่าจาก sessionStorage หากมี หรือใช้หน้า 1
+
+  // แสดงชื่อแท็ก
+  if (tagFilter) {
+    tagTitleSection.innerHTML = `<h2>ชุดที่มีแท็ก: ${tagFilter}</h2>`;
+  } else {
+    tagTitleSection.innerHTML = `<h2>ชุดทั้งหมด</h2>`;
+  }
 
   costumesAll = await fetchAllCostumes();
   renderCostumesPage(currentPage);
 }
 
 init();
+

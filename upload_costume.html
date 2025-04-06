@@ -62,6 +62,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="costumeDescription" class="form-label">ลิ้งค์สำหรับดูชุดเพิ่มเติม</label>
+                <input type="url" class="form-control" id="costumeLink" placeholder="ไม่ใส่ได้">
+            </div>
+
+            <div class="mb-3">
                 <label for="costumeImage" class="form-label">เลือกภาพชุด</label>
                 <input type="file" class="form-control" id="costumeImage" required>
             </div>
@@ -79,6 +84,7 @@
             <!-- ปุ่มแก้ไขข้อมูล (ไปหน้า edit_costumes.html) -->
             <button id="editCostumeButton" class="btn btn-warning" style="display: none;">แก้ไขข้อมูล</button>
         </div>
+        <br>
     </div>
 
     <script type="module" src="upload_costume.js"></script>

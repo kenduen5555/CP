@@ -34,6 +34,7 @@ onAuthStateChanged(auth, async (user) => {
         const nameInput = card.querySelector(".costume-name");
         const tagsInput = card.querySelector(".costume-tags");
         const descriptionInput = card.querySelector(".costume-description");
+        const linkInput = card.querySelector(".costume-link");
         const saveBtn = card.querySelector(".save-btn");
         const deleteBtn = card.querySelector(".delete-btn");
         const showImageBtn = card.querySelector(".show-image-btn");  // ปุ่มแสดงภาพ
@@ -42,6 +43,7 @@ onAuthStateChanged(auth, async (user) => {
 
         nameInput.value = data.name || "";
         descriptionInput.value = data.description || "";
+        linkInput.value = data.link || "";
 
         let tags = data.tags || [];
         
@@ -116,10 +118,12 @@ onAuthStateChanged(auth, async (user) => {
         saveBtn.addEventListener("click", async () => {
             const updatedName = nameInput.value.trim();
             const updatedDescription = descriptionInput.value.trim();
+            const updatedLink = linkInput.value.trim();
             await updateDoc(doc(db, "costumes", docSnap.id), {
                 name: updatedName,
                 tags,
-                description: updatedDescription
+                description: updatedDescription,
+                link: updatedLink
             });
             alert("บันทึกข้อมูลสำเร็จ");
         });

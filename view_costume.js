@@ -31,12 +31,13 @@ async function getCostumeDetails() {
 
         // แสดงรายละเอียดชุด
         costumeDetails.innerHTML = `
-            <div class="col-md-12 mb-4">
-                <div class="card shadow-lg">
-                    <img src="${costume.imageUrl}" class="card-img-top" alt="${costume.name}">
+            <div class="row justify-content-center mb-1">
+                <div class="col-md-7 shadow-lg">
+                    <img src="${costume.imageUrl}" class="img-fluid w-100" alt="${costume.name}">
                     <div class="card-body text-center">
-                        <h5 class="card-title">${costume.name}</h5>
-                        <p class="card-text">${costume.description || "ไม่มีรายละเอียด"}</p>
+                        <h1 class="card-title">${costume.name}</h5>
+                        <h5>${costume.description || "ร้านไม่ได้ใส่รายละเอียด"}</h5>
+                         ${costume.link ? `<p>ลิ้งค์ภาพเพิ่มเติม: <a href="${costume.link}" target="_blank">${costume.link}</a></p>` : ''}
                     </div>
                 </div>
             </div>
@@ -44,14 +45,14 @@ async function getCostumeDetails() {
 
         // แสดงแท็ก
         if (costume.tags && costume.tags.length > 0) {
-            let tagsHtml = '<h6>แท็ก:</h6><div class="btn-group">';
+            let tagsHtml = '<h6>แท็ก:</h6><div class="text-center mb-1">';
             costume.tags.forEach(tag => {
                 tagsHtml += `<a href="For%20rent.html?tag=${tag}" class="btn btn-secondary mx-1">${tag}</a>`;
             });
             tagsHtml += '</div>';
             tagsSection.innerHTML = tagsHtml;
         } else {
-            tagsSection.innerHTML = '<p>ไม่มีแท็กสำหรับชุดนี้</p>';
+            tagsSection.innerHTML = '<p text-center>ไม่มีแท็กสำหรับชุดนี้</p>';
         }
 
         // ลิงค์ไปหน้าร้าน
@@ -61,13 +62,23 @@ async function getCostumeDetails() {
 
             if (storeSnap.exists()) {
                 const store = storeSnap.data();
+                if (store.storeName) {
                 storeLinkSection.innerHTML = `
-                    <h6>ดูชุดทั้งหมดของร้าน ${store.storeName}</h6>
-                    <a href="store_page.html?id=${costume.userId}" class="btn btn-primary">ไปยังร้านนี้</a>
+                <div class="text-center">
+                    <h6>ดูชุดทั้งหมดของร้าน : ${store.storeName}</h6>
+                    <a href="store_page.html?id=${costume.userId}" class="btn btn-primary">ดูร้านนี้</a>
+                </div>
                 `;
             } else {
-                storeLinkSection.innerHTML = '<p>ไม่พบข้อมูลร้าน</p>';
-            }
+                storeLinkSection.innerHTML = `<div class="text-center"><p>ร้านนี้ยังไม่ได้ตั้งชื่อ</p>
+                <a href="store_page.html?id=${costume.userId}" class="btn btn-primary">ดูร้านไม่มีชื่อนี้</a></div>
+                `;}
+            }else {
+                storeLinkSection.innerHTML = `<div class="text-center"><p>ร้านไม่ใส่ข้อมูล</p>
+                <a href="store_page.html?id=${costume.userId}" class="btn btn-primary">ดูร้านไร้นามนี้</a></div>
+                `;}
+            
+            
         } else {
             storeLinkSection.innerHTML = '<p>ชุดนี้ไม่ได้เชื่อมโยงกับร้านใด</p>';
         }

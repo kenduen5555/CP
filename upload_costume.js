@@ -50,22 +50,46 @@ async function uploadImageToCloudinary(file) {
     }
 }
 
+
 // ฟังก์ชันสำหรับบันทึกชุดใน Firestore
 async function saveCostumeToFirestore(costumeData) {
     const costumeRef = doc(collection(db, "costumes"));
     await setDoc(costumeRef, costumeData);
 }
-const uploadButton = document.getElementById('uploadButton'); // ปุ่มอัปโหลด
+
 // ฟังก์ชันอัปโหลดชุด
 const uploadForm = document.getElementById('uploadCostumeForm');
+const uploadButton = document.getElementById('uploadButton'); // ปุ่มอัปโหลด
 uploadForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     console.log("Submit event triggered");
     uploadButton.disabled = true; // ปิดการใช้งานปุ่มทันทีที่กด
+
     const costumeName = document.getElementById('costumeName').value;
     const costumeTags = tags; // ใช้แท็กที่เก็บในตัวแปร tags
     const costumeDescription = document.getElementById('costumeDescription').value;
-    const costumeImage = document.getElementById('costumeImage').files[0];
+    const costumeLink = document.getElementById('costumeLink').value;
+    let costumeImage = document.getElementById('costumeImage').files[0];
+
+    const MAX_FILE_SIZE = 10485760; // 10MB in bytes
+
+    if (costumeImage.size > MAX_FILE_SIZE) {
+        try {
+            // ย่อภาพถ้าขนาดเกิน 10MB
+            const resizedImage = await resizeImage(costumeImage, 3072, 3072); // ย่อให้มีขนาดไม่เกิน 1024x1024
+            if (resizedImage.size > MAX_FILE_SIZE) {
+                alert("ขนาดไฟล์ยังคงเกิน 10MB กรุณาเลือกไฟล์ที่มีขนาดเล็กลง");
+                uploadButton.disabled = false;
+                return;
+            } else {
+                costumeImage = resizedImage;  // ใช้ภาพที่ย่อแล้ว
+            }
+        } catch (error) {
+            alert("เกิดข้อผิดพลาดในการย่อภาพ");
+            uploadButton.disabled = false;
+            return;
+        }
+    }
 
     // ตรวจสอบการกรอกข้อมูล
     if (!costumeName || costumeTags.length === 0 || !costumeImage) {
@@ -91,7 +115,8 @@ uploadForm.addEventListener('submit', async (event) => {
             description: costumeDescription, 
             tags: costumeTags,
             imageUrl: imageUrl,
-            userId: user.uid
+            userId: user.uid,
+            link: costumeLink,
         };
 
         // บันทึกชุดใน Firestore
@@ -195,4 +220,42 @@ document.addEventListener("DOMContentLoaded", () => {
 window.removeTag = function(tagToRemove) {
     tags = tags.filter(tag => tag !== tagToRemove);
     updateTagContainer();
+}
+
+function resizeImage(costumeImage, maxWidth, maxHeight) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+            img.src = event.target.result;
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth || height > maxHeight) {
+                    if (width / height > maxWidth / maxHeight) {
+                        height = Math.round(height * (maxWidth / width));
+                        width = maxWidth;
+                    } else {
+                        width = Math.round(width * (maxHeight / height));
+                        height = maxHeight;
+                    }
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+
+                canvas.toBlob(function(blob) {
+                    resolve(blob); // ส่งคืนภาพที่ย่อแล้ว
+                }, 'image/jpeg', 1); // คุณสามารถปรับคุณภาพได้ที่นี่
+            };
+        };
+        
+        reader.readAsDataURL(costumeImage);
+    });
 }

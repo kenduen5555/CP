@@ -35,12 +35,15 @@
     </nav>
 
     <div class="container mt-5 pt-5">
-        <h2 class="text-center">🔍 ค้นหาชุด ตัวละคร และร้านค้า</h2>
-        <input type="text" id="searchInput" class="form-control mt-3" placeholder="พิมพ์ชื่อชุด, ตัวละคร, ซีรีส์ หรือร้านค้า...">
-        <button class="btn btn-primary mt-3" onclick="searchItems()">ค้นหา</button>
-        <div id="result" class="mt-4"></div>
+        <h2 class="text-center">🔍 ค้นหาชุดจากแท็ก</h2>
+        <input type="text" id="searchInput" class="form-control mt-3" placeholder="พิมพ์ชื่อ tag ที่ต้องการหา เช่น ชุดนักเรียน ฯลฯ...">
+        <div id="suggestions" class="list-group mt-2" style="position: absolute; z-index: 999;"></div>
     </div>
-
-    <script src="script.js"></script>
+    <div class="container mt-5 pt-5">
+        <h2 class="text-center">🔍 ค้นหาร้านจากชื่อร้าน</h2>
+        <input type="text" id="storeSearchInput" class="form-control mt-3" placeholder="พิมพ์ชื่อร้าน หากเจอให้กดเลือก">
+        <div id="storeSuggestions" class="mt-3"></div>
+      </div>
+    <script type="module" src="search_tags.js"></script>
 </body>
 </html>
