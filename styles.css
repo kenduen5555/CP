@@ -1,3 +1,6 @@
+html,body {
+    background-color: lightgray;
+}
 body {
     font-family: "Noto Sans Thai", sans-serif;
     font-optical-sizing: auto;
@@ -345,7 +348,7 @@ main {
 }
 
 .box1 {
-    background-color: lightgray;
+    background-color: white;
     padding: 20px;
     margin: 30px;
 }
