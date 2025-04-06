@@ -311,22 +311,16 @@ main {
   
 .custom-card {
     display: flex;
-    flex-direction: column; /* จัดเนื้อหาภายในการ์ดให้เรียงตามแนวตั้ง */
-    height: 100%; /* ทำให้การ์ดมีความสูงเต็ม */
-    min-height: 400px; /* กำหนดความสูงขั้นต่ำ */
+    flex-direction: column;  /* จัดเนื้อหาภายในการ์ดให้เรียงตามแนวตั้ง */
+    height: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เงาของการ์ด */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* จัดให้องค์ประกอบภายในการ์ดอยู่ตรงกลาง */
 }
 
 .custom-card img {
-    width: auto; /* ปรับให้ความกว้างของรูปภาพไม่เต็ม */
-    height: 400px; /* กำหนดความสูงของรูปภาพให้คงที่ */
-    object-fit: contain; /* ให้ภาพแสดงครบเต็มความสูง ไม่ครอบภาพ */
-    max-width: 100%; /* ทำให้ภาพไม่เกินกรอบ */
-    max-height: 500px; /* จำกัดความสูงไม่เกินขนาดที่กำหนด */
-    margin-bottom: 10px; /* เพิ่มระยะห่างด้านล่าง */
+    width: 100%; /* รูปภาพเต็มความกว้างของการ์ด */
+    height: auto; /* ปรับให้รูปภาพคงสัดส่วน */
+    object-fit: cover; /* ทำให้ภาพเต็มกรอบโดยไม่บิดเบี้ยว */
+    flex-grow: 1; /* ทำให้รูปขยายจนเต็มพื้นที่ที่เหลือ */
 }
 
 .custom-card .card-body {
@@ -335,7 +329,6 @@ main {
     justify-content: flex-end; /* ให้เนื้อหาภายใน card-body อยู่ที่ด้านล่าง */
     padding: 15px;
     text-align: center;
-    flex-shrink: 0; /* ป้องกันไม่ให้เนื้อหาลดขนาด */
 }
 
 .card-body a {
