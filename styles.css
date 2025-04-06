@@ -5,7 +5,8 @@ body {
     font-style: normal;
     font-variation-settings:
       "wdth" 100;
-  }
+    padding-top: 70px; /* ป้องกัน Navbar ทับ Banner */
+}
 .bg-dark {
     background-color: #aa50ad !important;
 }
@@ -22,19 +23,15 @@ body {
     font-weight: bold;
 }
 
-/* ป้องกัน Navbar ทับ Banner */
-body {
-    padding-top: 70px; /* ปรับตามความสูงของ Navbar */
-}
-
 /* เพิ่มระยะห่างระหว่าง Banner และ Scroll Section */
 #carouselBanner {
-    margin-bottom: 40px; /* ปรับเพิ่มระยะห่างระหว่าง Banner กับเนื้อหาด้านล่าง */
+    margin-bottom: 40px;
 }
 
 #horizontalScrollContainer {
-    margin-top: 40px; /* เพิ่มระยะห่างระหว่าง Banner กับแถบ Scroll */
-    margin-bottom: 40px; /* ปรับเพิ่มระยะห่างระหว่าง Banner กับเนื้อหาด้านล่าง */
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 section.header {
@@ -95,24 +92,48 @@ section.header .header-content .container {
     background: #E75201;
 }
 
-/* กำหนดขนาดของการ์ดเป็น 500px */
-.card.mx-2 {
+/* ปรับการ Scroll แนวนอน */
+.scroll-wrapper {
     display: flex;
-    flex-direction: column;
-    width: 500px; /* กำหนดความกว้างของการ์ด */
-    height: 200px; /* กำหนดความสูงของการ์ด */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เงาของการ์ด */
-    margin-bottom: 20px; /* ระยะห่างระหว่างการ์ด */
-    border-radius: 8px; /* มุมโค้งของการ์ด */
-    overflow: hidden; /* ป้องกันการแสดงผลของเนื้อหาที่เกินขอบการ์ด */
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 16px;
+    padding: 10px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    height: 250; /* ✅ เพิ่มอันนี้ */
 }
 
-/* รูปภาพภายในการ์ด */
-.custom-card img {
-    width: 100%; /* รูปภาพเต็มความกว้างของการ์ด */
-    height: 60%; /* กำหนดความสูงของรูปภาพในการ์ด */
-    object-fit: cover; /* ทำให้ภาพเต็มกรอบโดยไม่บิดเบี้ยว */
-    border-bottom: 2px solid #ddd; /* เพิ่มเส้นขอบด้านล่างรูปภาพ */
+.scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.scroll-wrapper .card {
+    flex: 0 0 auto;
+    width: 14rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-bottom: 10px;
+}
+
+.scroll-wrapper .card img {
+    width: 300;
+    height: 150;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.scroll-wrapper .card img:hover {
+    transform: scale(1.1);
 }
 
 /* เนื้อหาภายในการ์ด */
@@ -129,17 +150,14 @@ section.header .header-content .container {
     color: #333;
 }
 .card.mx-2 {
-    width: 500px !important;
-    height: 500px !important;
+    width: 300px !important;
+    height: 100px !important;
 }
-
-
-
-
 
 /* ปรับปุ่มแท็ก */
 .custom-tag {
-    width: 120px;
+    width: 130px;
+    height: 50;
     border: 2px solid #EC5B1B;
     color: #EC5B1B;
     font-size: 18px;
@@ -156,16 +174,17 @@ section.header .header-content .container {
     background: #EC5B1B;
     color: white;
 }
+
 html, body {
     height: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* ให้ body สูงเต็มจอ */
+    min-height: 100vh;
 }
 
 main {
-    flex: 1; /* ขยายเต็มที่เพื่อดัน footer ลงล่าง */
+    flex: 1;
 }
 
 .footer {
@@ -174,59 +193,55 @@ main {
     text-align: center;
     padding: 20px 0;
 }
+
 /* ปรับขนาดช่องกรอกข้อมูล */
 #contactForm .form-control,
 #contactForm .form-select {
-    max-width: 400px; /* กำหนดความกว้างสูงสุด */
-    margin: 0 auto; /* จัดให้อยู่ตรงกลาง */
+    max-width: 400px;
+    margin: 0 auto;
 }
-/* ปรับให้ label และ input อยู่ในแนวเดียวกัน */
+
 #contactForm .form-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* จัด label กับ input ให้อยู่ซ้ายสุด */
-    max-width: 400px; /* จำกัดขนาดของกล่อง input */
+    align-items: flex-start;
+    max-width: 400px;
     width: 100%;
     margin: 0 auto;
 }
 
-/* ปรับ label ให้ชิดซ้ายของ input */
 #contactForm .form-label {
     font-weight: bold;
-    margin-bottom: 5px; /* เพิ่มระยะห่างระหว่าง label และ input */
+    margin-bottom: 5px;
     text-align: left;
-    width: 100%; /* ให้ label ขยายเต็ม container */
+    width: 100%;
 }
 
-
-/* ปรับขนาดปุ่มส่ง */
 #contactForm button {
-    max-width: 200px; /* จำกัดความกว้างของปุ่ม */
+    max-width: 200px;
     display: block;
-    margin: 10px auto; /* จัดปุ่มให้อยู่ตรงกลาง */
+    margin: 10px auto;
 }
 
 .alert {
     padding: 15px 5%;
-    background-color: #4CAF50; /* สีเขียว */
+    background-color: #4CAF50;
     color: white;
     position: fixed;
     top: 80px;
     right: 10px;
-
     border-radius: 5px;
     z-index: 9999;
+    font-size: 18px;
+    height: auto;
+    min-width: 10%;
+    max-width: 50%;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+}
 
-    font-size: 18px; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้น */
-    height: auto; /* ความสูงปรับอัตโนมัติ */
-    min-width: 10%; /* ความกว้างขั้นต่ำเป็นเปอร์เซ็นต์ */
-    max-width: 50%; /* ความกว้างสูงสุดเป็นเปอร์เซ็นต์ */
-    text-align: center; /* จัดข้อความให้อยู่กลาง */
-    font-weight: bold; /* ทำให้ตัวอักษรหนาขึ้น */
-    display: none;  /* ซ่อนข้อความเริ่มต้น */
-  }
-
-  #tagContainer {
+#tagContainer {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -252,37 +267,3 @@ main {
     cursor: pointer;
     font-size: 16px;
 }
-
-.costume-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* กำหนดให้คอลัมน์แต่ละคอลัมน์มีความกว้างเท่าๆ กัน */
-    gap: 10px; /* ระยะห่างระหว่างการ์ด */
-    justify-items: center; /* จัดการ์ดให้อยู่ตรงกลาง */
-    padding: 0 10px; /* เพิ่ม padding เพื่อป้องกันการ์ดติดขอบ */
-}
-  
-.custom-card {
-    display: flex;
-    flex-direction: column;  /* จัดเนื้อหาภายในการ์ดให้เรียงตามแนวตั้ง */
-    height: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เงาของการ์ด */
-}
-
-.custom-card img {
-    width: 100%; /* รูปภาพเต็มความกว้างของการ์ด */
-    height: auto; /* ปรับให้รูปภาพคงสัดส่วน */
-    object-fit: cover; /* ทำให้ภาพเต็มกรอบโดยไม่บิดเบี้ยว */
-    flex-grow: 1; /* ทำให้รูปขยายจนเต็มพื้นที่ที่เหลือ */
-}
-
-.custom-card .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* ให้เนื้อหาภายใน card-body อยู่ที่ด้านล่าง */
-    padding: 15px;
-    text-align: center;
-}
-
-.card-body a {
-    margin-top: auto; /* ให้ปุ่มอยู่ที่ด้านล่างสุด */
-}/* ให้ปุ่มอยู่ที่ด้านล่างสุด */
