@@ -96,15 +96,17 @@ section.header .header-content .container {
 }
 
 /* ปรับการ Scroll แนวนอน */
-/* .horizontal-scroll-container {
+.horizontal-scroll-container {
     width: 100vw;
-    overflow-x: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     box-sizing: border-box;
     padding: 20px;
+    min-height: 400px;
   }
 
 .horizontal-scroll-container::-webkit-scrollbar {
-    height: 8px;
+    height: 10px;
 }
 
 .horizontal-scroll-container::-webkit-scrollbar-thumb {
@@ -155,7 +157,7 @@ section.header .header-content .container {
 .scroll-wrapper {
     display: flex;
     flex-wrap: nowrap;
-} */
+} 
 
 /* ปรับขนาดการ์ด */
 .card {
@@ -334,10 +336,9 @@ main {
 .card-body a {
     margin-top: auto; /* ให้ปุ่มอยู่ที่ด้านล่างสุด */
 }/* ให้ปุ่มอยู่ที่ด้านล่างสุด */
-<<<<<<< HEAD
 
 .main-content {
-    max-width: 600px;
+    max-width: 500px;
     margin: auto;
     width: 30%;
     display: inline-block;
@@ -347,7 +348,6 @@ main {
     background-color: lightgray;
     padding: 20px;
     margin: 30px;
-    
 }
 
 .image {
@@ -361,5 +361,7 @@ main {
     text-decoration: none;
     display: inline-block;
 }
-=======
->>>>>>> 88b5884b488f4c8b3a9bd3dc3f94e27073a66adc
+
+.main1 {
+    margin-left: 115px;
+}
