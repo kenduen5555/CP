@@ -49,7 +49,14 @@
         </div>
         <br>
     </section>
-
+    <style>
+        .custom-image {
+    width: 100%; /* ให้ภาพเต็มความกว้าง */
+    max-width: 100%; /* ป้องกันไม่ให้ภาพเกินขนาด */
+    height: auto; /* ให้ภาพไม่เสียอัตราส่วน */
+    object-fit: cover; /* ทำให้ภาพเต็มกรอบการ์ดโดยไม่บิดเบี้ยว */
+}
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 </html>
