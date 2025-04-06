@@ -7,8 +7,7 @@ body {
       "wdth" 100;
     padding-top: 70px; /* ป้องกัน Navbar ทับ Banner */
 }
-    padding-top: 70px; /* ป้องกัน Navbar ทับ Banner */
-}
+
 .bg-dark {
     background-color: #aa50ad !important;
 }
@@ -106,13 +105,6 @@ section.header .header-content .container {
     overflow-x: auto;
     overflow-y: hidden;
     gap: 16px;
-.scroll-wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    gap: 16px;
     padding: 10px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
@@ -121,17 +113,14 @@ section.header .header-content .container {
 }
 
 .scroll-wrapper::-webkit-scrollbar {
-.scroll-wrapper::-webkit-scrollbar {
     height: 8px;
 }
 
-.scroll-wrapper::-webkit-scrollbar-thumb {
 .scroll-wrapper::-webkit-scrollbar-thumb {
     background-color: #888;
     border-radius: 10px;
 }
 
-.scroll-wrapper .card {
 .scroll-wrapper .card {
     flex: 0 0 auto;
     width: 14rem;
@@ -250,12 +239,10 @@ main {
     max-width: 200px;
     display: block;
     margin: 10px auto;
-    margin: 10px auto;
 }
 
 .alert {
     padding: 15px 5%;
-    background-color: #4CAF50;
     background-color: #4CAF50;
     color: white;
     position: fixed;
@@ -271,16 +258,7 @@ main {
     font-weight: bold;
     display: none;
 }
-    font-size: 18px;
-    height: auto;
-    min-width: 10%;
-    max-width: 50%;
-    text-align: center;
-    font-weight: bold;
-    display: none;
-}
 
-#tagContainer {
 #tagContainer {
     display: flex;
     flex-wrap: wrap;
@@ -307,4 +285,3 @@ main {
     cursor: pointer;
     font-size: 16px;
 }
-
