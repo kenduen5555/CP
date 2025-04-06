@@ -7,6 +7,8 @@ body {
       "wdth" 100;
     padding-top: 70px; /* ป้องกัน Navbar ทับ Banner */
 }
+    padding-top: 70px; /* ป้องกัน Navbar ทับ Banner */
+}
 .bg-dark {
     background-color: #aa50ad !important;
 }
@@ -26,9 +28,13 @@ body {
 /* เพิ่มระยะห่างระหว่าง Banner และ Scroll Section */
 #carouselBanner {
     margin-bottom: 40px;
+    margin-bottom: 40px;
 }
 
 #horizontalScrollContainer {
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 40px;
     width: 100%;
     margin-top: 40px;
     margin-bottom: 40px;
@@ -100,6 +106,13 @@ section.header .header-content .container {
     overflow-x: auto;
     overflow-y: hidden;
     gap: 16px;
+.scroll-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 16px;
     padding: 10px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
@@ -108,16 +121,20 @@ section.header .header-content .container {
 }
 
 .scroll-wrapper::-webkit-scrollbar {
+.scroll-wrapper::-webkit-scrollbar {
     height: 8px;
 }
 
+.scroll-wrapper::-webkit-scrollbar-thumb {
 .scroll-wrapper::-webkit-scrollbar-thumb {
     background-color: #888;
     border-radius: 10px;
 }
 
 .scroll-wrapper .card {
+.scroll-wrapper .card {
     flex: 0 0 auto;
+    width: 14rem;
     width: 14rem;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -175,15 +192,18 @@ section.header .header-content .container {
     color: white;
 }
 
+
 html, body {
     height: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-height: 100vh;
 }
 
 main {
+    flex: 1;
     flex: 1;
 }
 
@@ -194,16 +214,22 @@ main {
     padding: 20px 0;
 }
 
+
 /* ปรับขนาดช่องกรอกข้อมูล */
 #contactForm .form-control,
 #contactForm .form-select {
     max-width: 400px;
     margin: 0 auto;
+    max-width: 400px;
+    margin: 0 auto;
 }
+
 
 #contactForm .form-group {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    max-width: 400px;
     align-items: flex-start;
     max-width: 400px;
     width: 100%;
@@ -213,18 +239,23 @@ main {
 #contactForm .form-label {
     font-weight: bold;
     margin-bottom: 5px;
+    margin-bottom: 5px;
     text-align: left;
+    width: 100%;
     width: 100%;
 }
 
 #contactForm button {
     max-width: 200px;
+    max-width: 200px;
     display: block;
+    margin: 10px auto;
     margin: 10px auto;
 }
 
 .alert {
     padding: 15px 5%;
+    background-color: #4CAF50;
     background-color: #4CAF50;
     color: white;
     position: fixed;
@@ -240,7 +271,16 @@ main {
     font-weight: bold;
     display: none;
 }
+    font-size: 18px;
+    height: auto;
+    min-width: 10%;
+    max-width: 50%;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+}
 
+#tagContainer {
 #tagContainer {
     display: flex;
     flex-wrap: wrap;
@@ -267,3 +307,4 @@ main {
     cursor: pointer;
     font-size: 16px;
 }
+
