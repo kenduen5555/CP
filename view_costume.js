@@ -32,7 +32,7 @@ async function getCostumeDetails() {
         // แสดงรายละเอียดชุด
         costumeDetails.innerHTML = `
             <div class="row justify-content-center mb-1">
-                <div class="col-md-9 shadow-lg">
+                <div class="col-md-12 shadow-lg">
                     <img src="${costume.imageUrl}" class="img-fluid w-100" alt="${costume.name}">
                     <div class="card-body text-center">
                         <h1 class="card-title">${costume.name}</h5>
