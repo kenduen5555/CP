@@ -38,6 +38,9 @@ onAuthStateChanged(auth, async (user) => {
         const saveBtn = card.querySelector(".save-btn");
         const deleteBtn = card.querySelector(".delete-btn");
         const showImageBtn = card.querySelector(".show-image-btn");  // ปุ่มแสดงภาพ
+        const imageUploadInput = card.querySelector(".image-upload-input"); // ป้อนภาพใหม่
+        const editImageBtn = card.querySelector(".edit-image-btn");
+        const imagePreview = card.querySelector(".image-preview"); // แสดงตัวอย่างภาพ
 
         const tagContainer = card.querySelector(".tag-container");
 
@@ -46,7 +49,7 @@ onAuthStateChanged(auth, async (user) => {
         linkInput.value = data.link || "";
 
         let tags = data.tags || [];
-        
+
         // ฟังก์ชันสำหรับการอัปเดตการแสดงแท็ก
         function updateTagDisplay() {
             tagContainer.innerHTML = '';
@@ -115,6 +118,82 @@ onAuthStateChanged(auth, async (user) => {
             }
         });
 
+        editImageBtn.addEventListener("click", (event) => {
+            event.preventDefault(); // ป้องกันการทำงานปกติ
+            imageUploadInput.click(); // เปิด file picker เพื่อเลือกไฟล์
+        });
+
+        // เพิ่มฟังก์ชันสำหรับการอัปโหลดและอัปเดตภาพ
+        imageUploadInput.addEventListener("change", async (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("upload_preset", "testupload"); // ตั้งค่า Cloudinary Preset ที่ถูกต้อง
+
+                // อัปโหลดภาพไปที่ Cloudinary
+                const cloudName = "ddafghhjl"; // ชื่อ cloud ของคุณ
+                const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+
+                try {
+                    const response = await fetch(cloudinaryUrl, {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    const result = await response.json();
+                    const imageUrl = result.secure_url;
+                    const NewdeleteToken = result.delete_token;
+
+                    // อัปเดต Firestore ด้วย URL ของภาพ
+                    await updateDoc(doc(db, "costumes", docSnap.id), {
+                        imageUrl: imageUrl,
+                    });
+//ลบภาพเก่าด้วยdeleteTokenของเดิม  
+const deleteTokenDoc = await getDoc(doc(db, "deleteTokens", docSnap.id));
+
+// หากมี deleteToken และ deleteTokenDoc.exists() เป็นจริง
+if (deleteTokenDoc.exists()) {
+    const deleteToken = deleteTokenDoc.data().deleteToken;
+    // 🔥 หากมี deleteToken ให้ส่งไปลบที่ Cloudinary
+    if (deleteToken && deleteToken !== "" && deleteToken !== null) {
+        const cloudName = "ddafghhjl"; // เปลี่ยนตามชื่อ cloud ของคุณ
+        const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudName}/delete_by_token`;
+
+        const response = await fetch(cloudinaryUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token: deleteToken })
+        });
+
+        if (!response.ok) {
+            throw new Error("ลบภาพใน Cloudinary ล้มเหลว");
+        }
+        alert("ลบชุดในฐานข้อมูลแล้ว");
+
+    }
+} else {
+    alert("แก้ชุดโดยไม่ลบภาพเก่า");
+}
+
+                    // อัปเดตข้อมูล deleteToken ใน Firestore เป็นของใหม่
+                    await updateDoc(doc(db, "deleteTokens", docSnap.id), {
+                        deleteToken: NewdeleteToken,
+                    });
+
+                    alert("อัปโหลดและเปลี่ยนรูปภาพเรียบร้อยแล้ว");
+                    // แสดงตัวอย่างภาพ
+                    imagePreview.src = imageUrl;  // อัปเดต src ของภาพ
+                    imagePreview.style.display = "block";  // แสดงภาพที่อัปโหลด
+                } catch (error) {
+                    console.error("เกิดข้อผิดพลาดในการอัปโหลดภาพ:", error);
+                    alert("เกิดข้อผิดพลาดในการอัปโหลดภาพ");
+                }
+            }
+        });
+
         saveBtn.addEventListener("click", async () => {
             const updatedName = nameInput.value.trim();
             const updatedDescription = descriptionInput.value.trim();
@@ -130,13 +209,59 @@ onAuthStateChanged(auth, async (user) => {
 
         deleteBtn.addEventListener("click", async () => {
             const confirmDelete = confirm("คุณแน่ใจหรือไม่ว่าต้องการลบชุดนี้?");
-            if (confirmDelete) {
-                await deleteDoc(doc(db, "costumes", docSnap.id));
-                alert("ลบชุดเรียบร้อยแล้ว");
-                location.reload();
+            if (!confirmDelete) return;
+        
+            // สร้าง reference สำหรับ deleteToken
+            const deleteTokenRef = doc(db, "deleteTokens", docSnap.id); // ใช้ costumeId เป็น docId
+        
+            try {
+                // ตรวจสอบว่าเอกสาร deleteToken มีอยู่หรือไม่
+                const deleteTokenDoc = await getDoc(deleteTokenRef);
+
+                // หากมี deleteToken และ deleteTokenDoc.exists() เป็นจริง
+                if (deleteTokenDoc.exists()) {
+                    const deleteToken = deleteTokenDoc.data().deleteToken;
+                    // 🔥 หากมี deleteToken ให้ส่งไปลบที่ Cloudinary
+                    if (deleteToken && deleteToken !== "" && deleteToken !== null) {
+                        const cloudName = "ddafghhjl"; // เปลี่ยนตามชื่อ cloud ของคุณ
+                        const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudName}/delete_by_token`;
+        
+                        const response = await fetch(cloudinaryUrl, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ token: deleteToken })
+                        });
+        
+                        if (!response.ok) {
+                            throw new Error("ลบภาพใน Cloudinary ล้มเหลว");
+                        }
+        
+                        // 🔥 ลบข้อมูลใน deleteTokens
+                        await deleteDoc(deleteTokenRef);  // ลบ deleteToken
+                        // 🔥 ลบข้อมูลชุดใน Firestore
+                        await deleteDoc(doc(db, "costumes", docSnap.id));
+                        alert("ลบชุดและภาพเรียบร้อยแล้ว");
+                        location.reload();
+                    }
+                } else {
+                    // 🔥 ลบข้อมูลชุดใน Firestore
+                    await deleteDoc(doc(db, "costumes", docSnap.id));
+                    alert("ลบชุดและภาพเรียบร้อยแล้วโดยไม่ได้ลบในฐานข้อมูล");
+                    location.reload();
+                }
+        
+               
+        
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดขณะลบ:", error);
+                alert("เกิดข้อผิดพลาดขณะลบชุดหรือลบภาพ");
             }
         });
 
         costumeList.appendChild(card);
     });
 });
+
+

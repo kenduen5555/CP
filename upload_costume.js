@@ -43,19 +43,32 @@ async function uploadImageToCloudinary(file) {
     const data = await response.json();
     console.log('Cloudinary response:', data);  // เพิ่มการตรวจสอบการตอบกลับจาก Cloudinary
 
-    if (data.secure_url) {
-        return data.secure_url;  // ส่งคืน URL ของภาพที่อัปโหลด
+    if (data.secure_url && data.delete_token) {
+        return {
+            imageUrl: data.secure_url,
+            deleteToken: data.delete_token
+        };
     } else {
         throw new Error('Error uploading image');
     }
 }
 
-
 // ฟังก์ชันสำหรับบันทึกชุดใน Firestore
 async function saveCostumeToFirestore(costumeData) {
     const costumeRef = doc(collection(db, "costumes"));
     await setDoc(costumeRef, costumeData);
+    return costumeRef.id;  // ส่งคืน ID ของชุดคอสตูมที่ถูกบันทึก
 }
+
+// ฟังก์ชันสำหรับบันทึก deleteToken ใน Firestore
+async function saveDeleteToken(costumeId, storeId, deleteToken) {
+    const deleteTokenRef = doc(db, "deleteTokens", costumeId);  // ใช้ costumeId เป็น document ID
+    await setDoc(deleteTokenRef, {
+        storeId: storeId,
+        deleteToken: deleteToken,  // เก็บ deleteToken จาก Cloudinary
+    });
+}
+
 
 // ฟังก์ชันอัปโหลดชุด
 const uploadForm = document.getElementById('uploadCostumeForm');
@@ -100,7 +113,7 @@ uploadForm.addEventListener('submit', async (event) => {
 
     try {
         // อัปโหลดภาพไปยัง Cloudinary
-        const imageUrl = await uploadImageToCloudinary(costumeImage);
+        const { imageUrl, deleteToken } = await uploadImageToCloudinary(costumeImage);
         document.getElementById('uploadedImage').src = imageUrl;  // แสดงภาพ
 
         // บันทึกข้อมูลชุดใน Firestore
@@ -118,10 +131,9 @@ uploadForm.addEventListener('submit', async (event) => {
             userId: user.uid,
             link: costumeLink,
         };
-
         // บันทึกชุดใน Firestore
-        await saveCostumeToFirestore(costumeData);
-
+        const costumeId = await saveCostumeToFirestore(costumeData);  // รับ ID ของชุดที่บันทึก
+        await saveDeleteToken(costumeId, user.uid, deleteToken);  // บันทึก deleteToken
         // อัปโหลดแท็กใหม่ไปยัง Firestore (หากยังไม่เคยมี)
         costumeTags.forEach(async tag => {
             const tagRef = doc(db, "tags", tag);
@@ -259,3 +271,5 @@ function resizeImage(costumeImage, maxWidth, maxHeight) {
         reader.readAsDataURL(costumeImage);
     });
 }
+
+
