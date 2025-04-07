@@ -1,0 +1,216 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดชุด | KK Cos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">KK Cos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="For rent.html">For rent</a></li>
+                    <li class="nav-item"><a class="nav-link" href="artistmu.html">Makeup artist</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Cam.html">Cameraman</a></li>
+                    <li class="nav-item">
+                        <a id="login-link" class="nav-link" href="login.html">Log in</a>
+                        <a id="profile-link" class="nav-link" href="profile.html" style="display: none;">Profile</a>
+                        <script src="login_Profile.js"></script>
+                    </li>
+                </ul>
+                <div class="ms-auto">
+                    <a href="search.html" class="btn btn-primary">🔍 ค้นหาชุดและร้านค้า</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+  <div class="container mt-5">
+    <h1 class="text-center">ผลงานการถ่ายภาพ</h1>
+    <h2 id="store-name" class="text-center"></h2>
+    <p class="text-center">🔗 <a href="#" id="store-link" target="_blank">ไปยังลิงก์ร้าน</a></p>
+
+    <div id="portfolio-container" class="row mt-4"></div>
+
+    <nav>
+      <ul class="pagination justify-content-center mt-4" id="pagination"></ul>
+    </nav>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import {
+      getFirestore, collection, query, where, getDocs, doc, getDoc, orderBy
+    } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqxJMhfeNGmXB-j143LN6uxsIYkmEiwLE",
+      authDomain: "kkcos-d3a73.firebaseapp.com",
+      projectId: "kkcos-d3a73",
+      storageBucket: "kkcos-d3a73.appspot.com",
+      messagingSenderId: "400952081714",
+      appId: "1:400952081714:web:c5bc2b7127a2e4be666b2b"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+  
+    const urlParams = new URLSearchParams(window.location.search);
+    const storeId = urlParams.get('id');
+    const itemsPerPage = 9;
+    let currentPage = 1;
+    let allImages = [];
+  
+    const lastStoreId = sessionStorage.getItem('lastCamStoreId');
+    if (lastStoreId !== storeId) {
+      sessionStorage.removeItem('camCurrentPage');
+      sessionStorage.setItem('lastCamStoreId', storeId);
+    }
+    currentPage = Number(sessionStorage.getItem('camCurrentPage')) || 1;
+  
+    async function fetchStoreInfo() {
+      const storeDoc = await getDoc(doc(db, "stores", storeId));
+      if (storeDoc.exists()) {
+        const storeData = storeDoc.data();
+        document.getElementById("store-name").textContent = "ร้าน : "+storeData.storeName || "ไม่พบชื่อร้าน";
+        document.getElementById("store-link").href = storeData.storeLink || "#";
+      }
+    }
+  
+    async function fetchImages() {
+      const q = query(
+        collection(db, "portfolio"),
+        where("storeId", "==", storeId),
+        where("type", "==", "photography"),
+        orderBy("timestamp", "desc")
+      );
+      const querySnapshot = await getDocs(q);
+      allImages = querySnapshot.docs.map(doc => doc.data());
+      displayImages();
+      createPagination();
+    }
+  
+    function displayImages() {
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const currentItems = allImages.slice(start, end);
+  
+      const container = document.getElementById("portfolio-container");
+      container.innerHTML = "";
+  
+      currentItems.forEach(item => {
+        const col = document.createElement("div");
+        col.className = "col-md-4 mb-3";
+        col.innerHTML = `
+          <div class="card shadow">
+            <img src="${item.imageUrl}" class="card-img-top" alt="ผลงาน">
+          </div>
+        `;
+        container.appendChild(col);
+      });
+    }
+  
+    function createPagination() {
+  const totalPages = Math.ceil(allImages.length / itemsPerPage);
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML = "";
+
+  // ปุ่มก่อนหน้า
+  const prevLi = document.createElement("li");
+  prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
+  prevLi.innerHTML = `<a class="page-link" href="#">← ก่อนหน้า</a>`;
+  prevLi.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (currentPage > 1) {
+      currentPage--;
+      sessionStorage.setItem("camCurrentPage", currentPage);
+      displayImages();
+      createPagination();
+    }
+  });
+  pagination.appendChild(prevLi);
+
+  // ปุ่มตัวเลขหน้า
+  const maxDisplay = 5;
+  const half = Math.floor(maxDisplay / 2);
+  let startPage = Math.max(1, currentPage - half);
+  let endPage = Math.min(totalPages, currentPage + half);
+
+  if (endPage - startPage < maxDisplay - 1 && totalPages >= maxDisplay) {
+    if (startPage === 1) {
+      endPage = startPage + maxDisplay - 1;
+    } else if (endPage === totalPages) {
+      startPage = endPage - maxDisplay + 1;
+    }
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    const li = document.createElement("li");
+    li.className = `page-item ${i === currentPage ? "active" : ""}`;
+    li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+    li.addEventListener("click", (e) => {
+      e.preventDefault();
+      currentPage = i;
+      sessionStorage.setItem("camCurrentPage", currentPage);
+      displayImages();
+      createPagination();
+    });
+    pagination.appendChild(li);
+  }
+
+  // ปุ่มถัดไป
+  const nextLi = document.createElement("li");
+  nextLi.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
+  nextLi.innerHTML = `<a class="page-link" href="#">ถัดไป →</a>`;
+  nextLi.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (currentPage < totalPages) {
+      currentPage++;
+      sessionStorage.setItem("camCurrentPage", currentPage);
+      displayImages();
+      createPagination();
+    }
+  });
+  pagination.appendChild(nextLi);
+
+  // ช่องกรอกหมายเลขหน้า
+  const inputLi = document.createElement("li");
+  inputLi.className = "page-item ms-2";
+  inputLi.innerHTML = `
+    <input type="number" min="1" max="${totalPages}" placeholder="ไปหน้าที่..." class="form-control form-control-sm" style="width:100px;">
+  `;
+  const input = inputLi.querySelector("input");
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const page = parseInt(input.value);
+      if (page >= 1 && page <= totalPages) {
+        currentPage = page;
+        sessionStorage.setItem("camCurrentPage", currentPage);
+        displayImages();
+        createPagination();
+      }
+    }
+  });
+  pagination.appendChild(inputLi);
+}
+
+
+  
+    fetchStoreInfo();
+    fetchImages();
+  </script>
+  
+</body>
+</html>

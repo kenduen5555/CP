@@ -104,13 +104,24 @@ function renderCostumesPage(page) {
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
-  tagFilter = params.get("tag");
+  tagFilter = params.get("tag")|| '';
+  
+//   console.log('Current URL tag filter:', tagFilter);  // ดีบัค tag filter ที่ได้รับจาก URL
+  
   const previousTag = sessionStorage.getItem("lastTag");
+//   console.log('Previous tag from sessionStorage:', previousTag);  // ดีบัคค่า previousTag ที่เก็บใน sessionStorage
+  
   if (previousTag !== tagFilter) {
+    // console.log('Tag has changed, clearing currentPage');
     sessionStorage.removeItem("currentPage");
+    currentPage = 1;
+  } else {
+    currentPage = parseInt(sessionStorage.getItem('currentPage')) || 1;
+    // console.log('Using saved currentPage:', currentPage);  // ดีบัค currentPage ที่อ่านจาก sessionStorage
   }
+
   sessionStorage.setItem("lastTag", tagFilter);
-  currentPage = parseInt(sessionStorage.getItem('currentPage')) || 1;  // ใช้ค่าจาก sessionStorage หากมี หรือใช้หน้า 1
+//   console.log('Saving current tag to sessionStorage:', tagFilter);  // ดีบัคการบันทึก tag ใหม่ใน sessionStorage
 
   // แสดงชื่อแท็ก
   if (tagFilter) {
@@ -122,5 +133,6 @@ async function init() {
   costumesAll = await fetchAllCostumes();
   renderCostumesPage(currentPage);
 }
+
 
 init();

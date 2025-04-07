@@ -38,27 +38,40 @@
         </div>
     </nav>
     <br>
-    <form id="uploadImageForm">
-        <label for="imageType">เลือกประเภทภาพ:</label>
-        <select id="imageType" required>
-            <option value="makeupArtist">ช่างแต่งหน้า</option>
-            <option value="photographer">ช่างภาพ</option>
-        </select>
-        
-        <label for="imageFile">เลือกรูปภาพ:</label>
-        <input type="file" id="imageFile" accept="image/*" required>
-        
-        <button type="submit" id="uploadButton">อัปโหลด</button>
-    </form>
-    
-    <div id="imagePreview"></div>
-    
-    <div id="uploadedImageContainer" style="display: none;">
-        <img id="uploadedImage" alt="Uploaded Image" />
-        <button id="deleteImageButton">ลบภาพ</button>
-        <button id="editImageButton">แก้ไขภาพ</button>
+    <div class="container mt-5">
+        <h2 class="mb-4">อัปโหลดและจัดการรูปภาพ</h2>
+        <form id="uploadForm">
+            <div class="mb-3">
+                <label for="imageFile" class="form-label">เลือกไฟล์รูปภาพ</label>
+                <input type="file" class="form-control" id="imageFile" required>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">เลือกประเภท</label>
+                <select class="form-select" id="category" required>
+                    <option value="makeup">ผลงานการแต่งหน้า</option>
+                    <option value="photography">ผลงานการถ่ายภาพ</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">อัปโหลด</button>
+        </form>
+        <hr>
+        <h3>รูปภาพที่อัปโหลด</h3>
+        <template id="mainImageBadge">
+            <div class="main-image-badge">ภาพหลัก</div>
+          </template>
+        <div id="imagesContainer">
+            <div id="makeupImages">
+                <h4>ผลงานการแต่งหน้า</h4>
+                <div class="row" id="makeupRow"></div>
+            </div>
+            <div id="photographyImages">
+                <h4>ผลงานการถ่ายภาพ</h4>
+                <div class="row" id="photographyRow"></div>
+            </div>
+        </div>
     </div>
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="edit-upload_other.js" type="module"></script>
 </body>
 </html>
 

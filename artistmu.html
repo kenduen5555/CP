@@ -4,7 +4,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | KK Cos</title>
-    <!-- <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <script src="database.js" type="module"></script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html" style="color: #5b13a7;font-size: 40px;">KK Cos</a>
@@ -30,42 +28,194 @@
                         <a id="profile-link" class="nav-link" href="profile.html" style="display: none;">Profile</a></li>
                         <script src="login_Profile.js"></script>
                 </ul>
-                <!-- ใช้ ms-auto เพื่อดันปุ่มไปทางขวา -->
                 <div class="ms-auto">
                     <a href="search.html" class="btn btn-primary">🔍 ค้นหาชุดและร้านค้า</a>
                 </div>
             </div>
         </div>
     </nav>
-    <section class="recommended-tags mt-4">
 
+    <section class="recommended-tags mt-4">
         <!-- หัวข้อใหญ่ -->
         <div class="text-center mb-4">
-          <h5 style="color: #16111c; font-size: 35px; background-color: lightpink; display: inline-block; padding: 5px 15px;margin-top: 10px;">
-            Makeup artist
-          </h5>
+            <h5 style="color: #16111c; font-size: 35px; background-color: lightpink; display: inline-block; padding: 5px 15px;margin-top: 10px;">
+                Makeup artist
+            </h5>
         </div>
-      
-        <!-- กล่องรูปที่ 1 -->
-        <div class="main-content">
-          <div class="box1">
-            <img class="image" src="ช่าง1.jpg">
-            <h3>Castorice</h3>
-            <p>cosplay</p>
-            <a href="#" class="btn btn-primary">รายละเอียด</a>
-          </div>
+
+        <!-- แสดงภาพหลักจากฐานข้อมูล -->
+        <div id="artistmu-container" class="row">
+            <!-- ภาพหลักของช่างแต่งหน้าจะถูกแสดงที่นี่ -->
         </div>
+    </section>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import {
+          getFirestore, collection, query, where, getDocs, orderBy
+        } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
       
-        <!-- กล่องรูปที่ 2 -->
-        <div class="main-content">
-          <div class="box1">
-            <img class="image" src="ช่าง2.jpg">
-            <h3>Mitzuri</h3>
-            <p>cosplay</p>
-            <a href="#" class="btn btn-primary">รายละเอียด</a>
-          </div>
+        const firebaseConfig = {
+          apiKey: "AIzaSyBqxJMhfeNGmXB-j143LN6uxsIYkmEiwLE",
+          authDomain: "kkcos-d3a73.firebaseapp.com",
+          projectId: "kkcos-d3a73",
+          storageBucket: "kkcos-d3a73.appspot.com",
+          messagingSenderId: "400952081714",
+          appId: "1:400952081714:web:c5bc2b7127a2e4be666b2b"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+      
+        const artistmuContainer = document.getElementById("artistmu-container");
+      
+        const itemsPerPage = 9;
+        let currentPage = parseInt(sessionStorage.getItem("currentPageMakeup")) || 1;
+        let allImages = [];
+      
+        async function fetchMainImages() {
+          const q = query(
+            collection(db, "portfolio"),
+            where("type", "==", "makeup"),
+            where("isMain", "==", true),
+            orderBy("timestamp", "desc")
+          );
+      
+          const snapshot = await getDocs(q);
+          allImages = snapshot.docs.map(doc => doc.data());
+          renderCurrentPage();
+          renderPagination();
+        }
+      
+        function renderCurrentPage() {
+            artistmuContainer.innerHTML = "";
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const currentItems = allImages.slice(start, end);
+
+  currentItems.forEach(async data => {
+    const storeId = data.storeId;
+    const imageUrl = data.imageUrl;
+
+    // ดึงชื่อร้านจาก Firestore
+    const storeRef = collection(db, "stores");
+    const storeSnapshot = await getDocs(query(storeRef, where("__name__", "==", storeId)));
+    let storeName = "ไม่พบชื่อร้าน";
+
+    if (!storeSnapshot.empty) {
+      const storeData = storeSnapshot.docs[0].data();
+      storeName = storeData.storeName || "ไม่ระบุชื่อร้าน";
+    }
+
+    const col = document.createElement("div");
+    col.className = "col-md-4 mb-3";
+    col.innerHTML = `
+      <div class="custom-card shadow-lg">
+        <img src="${imageUrl}" class="card-img-top" alt="Artistmu Image">
+        <div class="card-body text-center">
+          <h6 class="card-title">${storeName}</h6>
+          <a href="store_page_artistmu.html?id=${storeId}" class="btn btn-primary mt-2">รายละเอียด</a>
         </div>
+      </div>
+    `;
+    artistmuContainer.appendChild(col);
+  });
+}
+
+
+
+        function renderPagination() {
+  const totalPages = Math.ceil(allImages.length / itemsPerPage);
+  const paginationContainer = document.createElement("div");
+  paginationContainer.className = "d-flex justify-content-center align-items-center flex-wrap mt-4 gap-2";
+
+  // ปุ่มก่อนหน้า
+  const prevBtn = document.createElement("button");
+  prevBtn.textContent = "← ก่อนหน้า";
+  prevBtn.className = "btn btn-sm btn-outline-secondary";
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.onclick = () => {
+    currentPage--;
+    sessionStorage.setItem("currentPageMakeup", currentPage);
+    renderCurrentPage();
+    renderPagination();
+  };
+  paginationContainer.appendChild(prevBtn);
+
+  // ปุ่มหมายเลขหน้า (แสดงรอบ currentPage)
+  const maxDisplay = 5;
+  const half = Math.floor(maxDisplay / 2);
+  let startPage = Math.max(1, currentPage - half);
+  let endPage = Math.min(totalPages, currentPage + half);
+
+  if (endPage - startPage < maxDisplay - 1 && totalPages >= maxDisplay) {
+    if (startPage === 1) {
+      endPage = startPage + maxDisplay - 1;
+    } else if (endPage === totalPages) {
+      startPage = endPage - maxDisplay + 1;
+    }
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    btn.className = `btn btn-sm ${i === currentPage ? "btn-primary" : "btn-outline-primary"}`;
+    btn.onclick = () => {
+      currentPage = i;
+      sessionStorage.setItem("currentPageMakeup", currentPage);
+      renderCurrentPage();
+      renderPagination();
+    };
+    paginationContainer.appendChild(btn);
+  }
+
+  // ปุ่มถัดไป
+  const nextBtn = document.createElement("button");
+  nextBtn.textContent = "ถัดไป →";
+  nextBtn.className = "btn btn-sm btn-outline-secondary";
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.onclick = () => {
+    currentPage++;
+    sessionStorage.setItem("currentPageMakeup", currentPage);
+    renderCurrentPage();
+    renderPagination();
+  };
+  paginationContainer.appendChild(nextBtn);
+
+  // ช่องกรอกหมายเลขหน้า
+  const pageInput = document.createElement("input");
+  pageInput.type = "number";
+  pageInput.min = 1;
+  pageInput.max = totalPages;
+  pageInput.placeholder = "ไปหน้าที่...";
+  pageInput.className = "form-control form-control-sm mx-2";
+  pageInput.style.width = "100px";
+  pageInput.onkeydown = (e) => {
+    if (e.key === "Enter") {
+      const value = parseInt(pageInput.value);
+      if (value >= 1 && value <= totalPages) {
+        currentPage = value;
+        sessionStorage.setItem("currentPageMakeup", currentPage);
+        renderCurrentPage();
+        renderPagination();
+      }
+    }
+  };
+  paginationContainer.appendChild(pageInput);
+
+  // ลบ pagination เก่าแล้วใส่ใหม่
+  const existing = document.getElementById("pagination-wrapper");
+  if (existing) existing.remove();
+
+  const wrapper = document.createElement("div");
+  wrapper.id = "pagination-wrapper";
+  wrapper.appendChild(paginationContainer);
+  document.querySelector("section.recommended-tags").appendChild(wrapper);
+}
+
       
-      </section>
+        fetchMainImages();
+      </script>
       
-    </body>
+
+</body>
+</html>
