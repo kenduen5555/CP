@@ -1,3 +1,6 @@
+html,body {
+    background-color: lightgray;
+}
 body {
     font-family: "Noto Sans Thai", sans-serif;
     font-optical-sizing: auto;
@@ -96,15 +99,17 @@ section.header .header-content .container {
 }
 
 /* ปรับการ Scroll แนวนอน */
-/* .horizontal-scroll-container {
+.horizontal-scroll-container {
     width: 100vw;
-    overflow-x: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     box-sizing: border-box;
     padding: 20px;
+    min-height: 400px;
   }
 
 .horizontal-scroll-container::-webkit-scrollbar {
-    height: 8px;
+    height: 10px;
 }
 
 .horizontal-scroll-container::-webkit-scrollbar-thumb {
@@ -155,7 +160,7 @@ section.header .header-content .container {
 .scroll-wrapper {
     display: flex;
     flex-wrap: nowrap;
-} */
+} 
 
 /* ปรับขนาดการ์ด */
 .card {
@@ -334,3 +339,32 @@ main {
 .card-body a {
     margin-top: auto; /* ให้ปุ่มอยู่ที่ด้านล่างสุด */
 }/* ให้ปุ่มอยู่ที่ด้านล่างสุด */
+
+.main-content {
+    max-width: 500px;
+    margin: auto;
+    width: 30%;
+    display: inline-block;
+}
+
+.box1 {
+    background-color: white;
+    padding: 20px;
+    margin: 30px;
+}
+
+.image {
+    width: 100%;
+}
+
+.button1{
+    color: #333;
+    background-color: #E75201;
+    padding: 10px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.main1 {
+    margin-left: 115px;
+}
